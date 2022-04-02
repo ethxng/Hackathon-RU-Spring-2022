@@ -1,0 +1,11 @@
+[
+    {
+        "status": "bought",
+        "item": "sofa",
+        "description": "brand new sofa. bought 2 weeks ago. need to sell ASAP due to relocation",
+        "willing_to_negotiate": true,
+        "timestamp": "2022-04-02T19:26:23+00:00",
+        "method_of_delivery": "pickup",
+        "OP": "62489fa958ac460655ce2662"
+    }
+]
