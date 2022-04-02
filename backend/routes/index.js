@@ -3,11 +3,14 @@ var router = express.Router();
 const {body, validationResult} = require('express-validator');
 const fs = require('fs');
 const passport = require('passport');
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  if (req.isAuthenticated())
+    console.log("you are logged in");
   res.redirect('/items');
 });
 
@@ -18,10 +21,35 @@ router.get('/log-in', (req, res, next) => {
     res.send('you will log in here')
 });
 
+/*
 router.post("/log-in", passport.authenticate('local', {
   successRedirect: '/',
   failureRedirect: '/'
-}));
+}));*/
+
+router.post('/log-in', (req, res, next) => {
+  passport.authenticate('local', {session: false}, (err, user, info) => {
+    if (err || !user) {
+      return res.status(400).json({
+          message: 'Something is not right',
+          user : user
+      });
+    }
+    // login
+    req.login(user, {session: false}, (err) => {
+      if (err) {
+        return next(err);
+      } else{
+        const token = jwt.sign({user: user}, 'HACKRU2022', (err, token) => {
+          if (err){
+            return next(err);
+          }
+          return res.json({token, "message": "user found & logged in"});
+        });
+      }
+    })
+  })(req, res);
+});
 
 router.get('/sign-up', (req, res, next) => {
   if (req.isAuthenticated())

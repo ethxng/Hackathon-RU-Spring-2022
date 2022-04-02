@@ -8,6 +8,9 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const passportJWT = require("passport-jwt");
+const JWTStrategy = passportJWT.Strategy;
+const ExtractJWT = passportJWT.ExtractJwt;
 const User = require('./models/User.js');
 const itemRouter = require('./routes/itemRouter');
 
@@ -32,6 +35,19 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+function verifyToken(req, res, next){
+  const bearerHeader = req.headers['authorization'];
+  console.log("bearer: " + bearerHeader);
+  if (typeof bearerHeader !== 'undefined'){
+    const bearer = bearerHeader.split(' ');
+    const bearerToken = bearer[1];
+    req.token = bearerToken;
+    next();
+  }  else{
+    res.sendStatus(403);
+  }
+}
 
 // set up passport for authentication
 app.use(session({secret: "cats", resave: false, saveUninitialized: true}));
@@ -66,12 +82,34 @@ passport.deserializeUser((id, done) => {
     });
 });
 
+/*
+// check incoming token, proceed if valid
+passport.use('jwt', new JWTStrategy({
+  jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken('Bearer'),
+  secretOrKey : 'HACKRU2022'
+},
+  function (jwtPayload, cb) {
+
+    //find the user in db if needed. This functionality may be omitted if you store everything you'll need in JWT payload.
+    console.log("payload: " + jwtPayload)
+    return cb(null, user);
+    User.findOneById(jwtPayload.id).exec((err, user) => {
+      if (err)
+        return cb(err, false);
+      else if (user)
+        return cb(null, user);
+      else
+        return cb(null, false);
+    });
+  }
+));*/
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/', indexRouter);
-app.use('/items', itemRouter);
+app.use('/items', verifyToken, itemRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
