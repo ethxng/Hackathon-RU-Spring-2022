@@ -1,5 +1,6 @@
 import React from 'react';
 import Field from "./Field"
+import {useNavigate} from "react-router-dom"
 
 function Signup() {
   
@@ -29,6 +30,8 @@ const submitStyle = {
     color: 'white',
     display: 'block'
 };
+
+let navigate = useNavigate();
 
 const SignupForm = ({onSubmit}) => {
     const usernameRef = React.useRef();
@@ -65,18 +68,21 @@ const SignupForm = ({onSubmit}) => {
   const handleSubmit = info => {
     const json = JSON.stringify(info, null, 4);
     console.log(json);
-
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "https://reqbin.com/echo/post/json");
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://localhost:3000/sign-up");
     xhr.setRequestHeader("Accept", "application/json");
     xhr.setRequestHeader("Content-Type", "application/json");
 
     xhr.onreadystatechange = function () {
       if (xhr.readyState === 4) {
         console.log(xhr.status);
-        console.log(xhr.responseText);
+        console.log(xhr.response);
+        if (xhr.response === "OK") {
+            navigate("/Login")
+        }
       }};
-    xhr.send(info);
+
+    xhr.send(json);
   }
 
   return (
