@@ -9,7 +9,7 @@ let itemSchema = new Schema({
     price: {type: Number, required: true},
     negotiation: {type: Boolean, required: true},
     method_of_delivery: {type: String, enum: ['drop-off', 'delivery', 'pickup'], required: true},
-    OP: {type: Schema.Types.ObjectId, ref: "User", required: true}
+    OP: {type: Schema.Types.ObjectId, ref: "User", required: true},
 }, {
     timestamps: true
 });
