@@ -73,7 +73,6 @@ const LoginForm = ({onSubmit}) => {
   
   const handleSubmit = info => {
     const json = JSON.stringify(info, null, 4);
-    console.log(json);
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "http://localhost:3000/log-in");
     xhr.setRequestHeader("Accept", "application/json");
@@ -82,9 +81,9 @@ const LoginForm = ({onSubmit}) => {
     xhr.onreadystatechange = function () {
       if (xhr.readyState === 4) {
         console.log(xhr.status);
-        console.log(JSON.parse(xhr.response).token);
         if (xhr.status === 200) {
           sessionStorage.setItem("token", JSON.parse(xhr.response).token)
+          sessionStorage.setItem("username", info.username)
           navigate("/")
         }
       }};

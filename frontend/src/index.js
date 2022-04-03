@@ -8,6 +8,8 @@ import {
   Route
 } from "react-router-dom";
 import Signup from './Signup';
+import NewItem from './NewItem';
+
 
 
 let container =   document.getElementById("root")
@@ -15,7 +17,9 @@ let root = createRoot(container)
 root.render(
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<Home />}/>
+      {/* <Route path=":itemId" element = {<Item/>}/> */}
+      <Route path="New" element={<NewItem/>}/>
       <Route path='/Login' element={<Login />} />
       <Route path='/Signup' element={<Signup />} />
     </Routes>
