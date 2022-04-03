@@ -37,6 +37,7 @@ router.post('/log-in', (req, res, next) => {
     }
     // login
     req.login(user, {session: false}, (err) => {
+      console.log('user: ' + user);
       if (err) {
         return next(err);
       } else{
@@ -44,7 +45,7 @@ router.post('/log-in', (req, res, next) => {
           if (err){
             return next(err);
           }
-          return res.json({token, "message": "user found & logged in"});
+          return res.json({token, "message": "user found & logged in", id: user._id});
         });
       }
     })
@@ -100,7 +101,7 @@ router.post('/sign-up', [
                         newUser.save((err) => {
                             if (err)
                                 return next(err);
-                            res.redirect('/');
+                            res.sendStatus(200);
                         });
                     });
                 }
