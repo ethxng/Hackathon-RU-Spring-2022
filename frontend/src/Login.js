@@ -75,14 +75,17 @@ const LoginForm = ({onSubmit}) => {
     const json = JSON.stringify(info, null, 4);
     console.log(json);
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "https://reqbin.com/echo/post/json");
+    xhr.open("POST", "http://localhost:3000/log-in");
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.setRequestHeader("Content-Type", "application/json");
+
     xhr.onreadystatechange = function () {
       if (xhr.readyState === 4) {
         console.log(xhr.status);
-        console.log(xhr.responseText);
+        console.log(xhr.response);
       }};
 
-  xhr.send(info);
+    xhr.send(json);
   }
 
   return (
