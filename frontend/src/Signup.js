@@ -78,7 +78,6 @@ const SignupForm = ({onSubmit}) => {
         console.log(xhr.status);
         console.log(xhr.response);
         if (xhr.response === "OK") {
-            console.log("hello")
             navigate("/Login")
         }
       }};

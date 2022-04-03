@@ -10,6 +10,7 @@ function Home() {
     const getItems = () => {
         let xhr = new XMLHttpRequest()
         xhr.open("GET", "http://localhost:3000/items")
+        xhr.setRequestHeader("authorization", sessionStorage.getItem("token"))
         xhr.send()
         xhr.onload = () => {
             console.log(xhr.response)

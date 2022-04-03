@@ -82,7 +82,11 @@ const LoginForm = ({onSubmit}) => {
     xhr.onreadystatechange = function () {
       if (xhr.readyState === 4) {
         console.log(xhr.status);
-        console.log(xhr.response);
+        console.log(JSON.parse(xhr.response).token);
+        if (xhr.status === 200) {
+          sessionStorage.setItem("token", JSON.parse(xhr.response).token)
+          navigate("/")
+        }
       }};
 
     xhr.send(json);
