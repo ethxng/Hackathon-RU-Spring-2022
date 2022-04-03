@@ -111,7 +111,7 @@ router.post('/sign-up', [
 ]);
 
 router.post('/log-out', (req, res, next) => {
-    req.logout();
-    res.redirect('/');
+    //req.logout();
+    req.token = null;
 })
 module.exports = router;
