@@ -68,7 +68,7 @@ const SignupForm = ({onSubmit}) => {
   const handleSubmit = info => {
     const json = JSON.stringify(info, null, 4);
     console.log(json);
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open("POST", "http://localhost:3000/sign-up");
     xhr.setRequestHeader("Accept", "application/json");
     xhr.setRequestHeader("Content-Type", "application/json");

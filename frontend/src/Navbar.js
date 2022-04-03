@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 
 const navStyles = {
     position: 'fixed',
@@ -27,6 +27,24 @@ const linkStyles = {
 }
 
 function Navbar() {
+    const navigate = useNavigate();
+
+    const logOut = () => {
+        console.log("hello")
+        let xhr = new XMLHttpRequest()
+        xhr.open("POST", "http://localhost:3000/log-out")
+        xhr.setRequestHeader("Accept", "application/json")
+        
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+              console.log(xhr.status);
+              console.log(xhr.response);
+              if (xhr.response === "OK") {
+                  
+                  navigate("/Login")
+              }
+            }};
+    }
 
     return (
     <nav style={navStyles}>
@@ -39,6 +57,9 @@ function Navbar() {
             </li>
             <li style={linkStyles}>
                 <Link to="/Signup">Sign Up</Link>
+            </li>
+            <li>
+                <Link to="/Login" style={linkStyles} onClick={logOut}>Log Out</Link>
             </li>
         </ul>
   </nav>
