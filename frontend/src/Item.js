@@ -10,13 +10,20 @@ import Typography from '@mui/material/Typography';
 function Item({key, itemName, authorName, description}) { // price, title, name
 // sx={{ maxWidth: 345 }}
     return (
-        <Card >
+        <Card 
+        style={{ 
+            marginLeft: '5%',
+            marginRight: '5%',
+            marginTop: "2%"
+    }}
+        >
       <CardHeader
-        title={itemName + key}
+        title={itemName}
         subheader={authorName}
       />
+ 
       <CardContent>
-        <Typography variant="caption" color="text.primary">
+        <Typography variant="v" color="text.primary">
           {description}
         </Typography>
       </CardContent>
